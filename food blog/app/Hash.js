@@ -14,7 +14,7 @@ function getPepper(){
     return json.pepper;
 }
 function createSalt(){
-    return randomBytes(128).toString("hex");
+    return randomBytes(16).toString("hex");
 }
 function hashString(string, salt) {
     let pepper = getPepper();
