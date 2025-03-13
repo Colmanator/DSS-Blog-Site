@@ -1,18 +1,22 @@
-class TableDataManager {
-    async create_test_table(client) {
+class UserDataManager {
+    async get_all(client){
 
         await client.connect();
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
-        await client.query("CREATE TABLE test (column1 varchar, column2 numeric)")
+        const result = await client.query("SELECT * FROM users")
         await client.end()
+        return result;
     }
-    async create_user_table(client){
+    async get_userByEmail(client, emailIn){
 
         await client.connect();
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
-        await clienit.query("CREATE TABLE users (column1 email, column2 displayName, column3 password, column4 salt)")
+        const result = await client.query("SELECT * FROM users WHERE email = emailIn")
         await client.end()
+        return result;
     }
+    
+
+
 }
-
-export default new TableDataManager();
+export default new UserDataManager();

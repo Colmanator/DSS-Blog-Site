@@ -27,6 +27,7 @@ async function connect_test(client) {
 
 connect_test(getClientObject());
 tablesDM.create_test_table(getClientObject());
+tablesDM.create_user_table(getClientObject());
 //--------------------------------------------------//
 app.use(express.static('./public'));
 //--------------------------------------------------//
