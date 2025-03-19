@@ -35,13 +35,20 @@ class UserDataManager {
         return result;
     }
 
-    async create_userInDatabase(client,emailIn, nameIn, passwordIn, saltIn){
+    async create_userInDatabase(client, emailIn, nameIn, passwordIn, saltIn){
 
         await client.connect();
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
-        const result = await client.query("SELECT * FROM users WHERE displayName = nameIn")
+        const result = await client.query("INSERT INTO users(email, displayName, password, salt, premiumStatus) VALUES(emailIn, nameIn, passwordIn, saltIn, FALSE)")
         await client.end()
         return result;
+    }
+
+    async deleteUser(client, userEmail){
+        await client.connect();
+        await client.query("DELETE FROM users WHERE email = userEmail")
+        await client.end();
+        )
     }
 
 
