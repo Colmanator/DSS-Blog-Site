@@ -46,9 +46,9 @@ class UserDataManager {
 
     async deleteUser(client, userEmail){
         await client.connect();
-        await client.query("DELETE FROM users WHERE email = userEmail")
+        const result = await client.query("DELETE FROM users WHERE email = userEmail")
         await client.end();
-        )
+        return result;
     }
 
 
