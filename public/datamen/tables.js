@@ -50,6 +50,20 @@ class TableDataManager {
         }
         await client.end()
     }
+    async create_session_table(client){
+        await client.connect();
+        await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
+        const result = await client.query("SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'dss_cw' AND table_name = 'sessions')");    // returns (within response object) a boolean indicating if the table exists within the specified schema
+        // https://stackoverflow.com/questions/46500883/how-do-i-check-if-a-table-exists
+        const { rows } = result;
+        if (!rows[0].exists) {
+            await client.query("CREATE TABLE sessions (id SERIAL PRIMARY KEY, email varchar NOT NULL REFERENCES users(email) ON DELETE CASCADE), time_created TIMESTAMP NOT NULL")
+        }
+        else {
+            console.log("Table already exists.")
+        }
+        await client.end()
+    }
 }
 
 export default new TableDataManager();
