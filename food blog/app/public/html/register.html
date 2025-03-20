@@ -13,24 +13,29 @@
     <h1>Welcome to MAE Food Creations!</h1>
 </header>
 <main>
-    <p>Register a new account!</p>
+    <p>Register a new account, <a href="../html/login.html">click here to login!</a></p>
 
-    <form method="post" action="/" id="login_form">
+    <form method="post" action="/" id="register_form">
 
         <label for="username_input">Create a display name:</label>
         <input type="text" name="username_input" id="username_input" placeholder="Please create a display name" required>
+        <p id="usernameError" class="error"></p>
 
         <label for="email_input">Email:</label>
         <input type="email" id="email_input" name="email_input" placeholder="Please enter your username..." required>
+        <p id="emailError" class="error"></p>
         <label for="email_input">Confirm Email:</label>
         <input type="email" id="email_validate" name="email_input" placeholder="Please re-enter your username..." required>
+        <p id="emailConfirmError" class="error"></p>
 
         <label for="password_input">Password:</label>
         <input type="password" id="password_input" name="password_input" placeholder="Please create a password..." required>
+        <p id="passwordError" class="error"></p>
         <label for="password_confirm">Confirm Password:</label>
         <input type="password" id="password_confirm" name="password_confirm" placeholder="Please re-enter your password..." required>
+        <p id="passwordConfirmError" class="error"></p>
 
-        <button id="login_btn" type="submit">Register</button>
+        <button id="register_btn" type="submit">Register</button>
     </form>
 </main>
 </body>
