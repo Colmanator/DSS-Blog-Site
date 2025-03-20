@@ -50,6 +50,7 @@ class ReviewDataManager {
 
     async update_rating(client, ratingIn, idIn){
         await client.connect();
+        await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
         const result = await client.query("UPDATE reviews SET rating = [0] WHERE id = [1] ", ratingIn, idIn);
         await client.end();
         return result;
@@ -57,22 +58,26 @@ class ReviewDataManager {
 
     async update_comment(client, commentIn, idIn ){
         await client.connect();
+        await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
         const result = await client.query("UPDATE reviews SET comment = [0] WHERE id = [1] ", commentIn, idIn);
         await client.end();
         return result;
     }
 
-    async create_postInDatabase(client, authorIn, postIn, ratingIn, commentIn){
+    async create_reviewInDatabase(client, authorIn, postIn, ratingIn, commentIn){
 
         await client.connect();
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
-        const result = await client.query("INSERT INTO posts(id, author, post, rating, comment) VALUES([0], [1], [2], [3])",authorIn, postIn, ratingIn, commentIn);
+        const result = await client.query(
+            "INSERT INTO reviews(id, author, post, rating, comment)" +
+            " VALUES(DEFAULT, $0, [1], [2], [3])",authorIn, postIn, ratingIn, commentIn);
         await client.end()
         return result;
     }
 
-    async deletePost(client, reviewId){
+    async deleteReview(client, reviewId){
         await client.connect();
+        await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
         const result = await client.query("DELETE FROM reviews WHERE id = [0]", reviewId)
         await client.end();
         return result;

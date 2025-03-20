@@ -64,6 +64,7 @@ class postDataManager {
 
     async update_title(client, titleIn, idIn){
         await client.connect();
+        await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
         const result = await client.query("UPDATE posts SET title = [0] WHERE id = [1] ", titleIn, idIn);
         await client.end();
         return result;
@@ -71,6 +72,7 @@ class postDataManager {
 
     async update_summary(client, summaryIn, idIn){
         await client.connect();
+        await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
         const result = await client.query("UPDATE posts SET summary = [0] WHERE id = [1] ", summaryIn, idIn);
         await client.end();
         return result;
@@ -78,6 +80,7 @@ class postDataManager {
 
     async update_rating(client, ratingIn, idIn){
         await client.connect();
+        await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
         const result = await client.query("UPDATE posts SET rating = [0] WHERE id = [1] ", ratingIn, idIn);
         await client.end();
         return result;
@@ -85,6 +88,7 @@ class postDataManager {
 
     async update_premium_content(client, statusIn, idIn){
         await client.connect();
+        await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
         const result = await client.query("UPDATE posts SET premium_content = [0] WHERE id = [1] ", statusIn, idIn);
         await client.end();
         return result;
@@ -92,6 +96,7 @@ class postDataManager {
 
     async update_ingredients(client, ingredientsIn, idIn){
         await client.connect();
+        await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
         const result = await client.query("UPDATE posts SET ingredients = [0] WHERE id = [1] ", ingredIn, idIn);
         await client.end();
         return result;
@@ -99,6 +104,7 @@ class postDataManager {
 
     async update_instruct(client, instructIn, idIn){
         await client.connect();
+        await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
         const result = await client.query("UPDATE posts SET instructions = [0] WHERE id = [1] ", instructIn, idIn);
         await client.end();
         return result;
@@ -126,6 +132,7 @@ class postDataManager {
 
     async deletePost(client, postId){
         await client.connect();
+        await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
         const result = await client.query("DELETE FROM posts WHERE id = [0]", postId)
         await client.end();
         return result;

@@ -33,6 +33,7 @@ class UserDataManager {
 
     async update_DisplayName(client, nameIn, emailIn ){
         await client.connect();
+        await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
         const result = await client.query("UPDATE users SET displayName = [0] WHERE email = [1] ", nameIn, emailIn);
         await client.end();
         return result;
@@ -40,6 +41,7 @@ class UserDataManager {
 
     async update_status(client, statusIn, emailIn ){
         await client.connect();
+        await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
         const result = await client.query("UPDATE users SET premiumStatus = [0] WHERE email = [1] ", statusIn, emailIn);
         await client.end();
         return result;
@@ -47,6 +49,7 @@ class UserDataManager {
 
     async update_salt(client, saltIn, emailIn ){
         await client.connect();
+        await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
         const result = await client.query("UPDATE users SET salt = [0] WHERE email = [1] ", saltIn, emailIn);
         await client.end();
         return result;
@@ -54,6 +57,7 @@ class UserDataManager {
 
     async update_password(client, passwordIn, emailIn){
         await client.connect();
+        await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
         const result = await client.query("UPDATE users SET password = [0] WHERE email = [1] ", passwordIn, emailIn);
         await client.end();
         return result;
@@ -63,13 +67,16 @@ class UserDataManager {
 
         await client.connect();
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
-        const result = await client.query("INSERT INTO users(email, displayName, password, salt, premiumStatus) VALUES([0], [1], [2], [3], False)", emailIn, nameIn, passwordIn, saltIn);
+        const result = await client.query(
+            "INSERT INTO users(email, displayName, password, salt, premiumStatus)" +
+            "VALUES($0, [1], [2], [3], False)", emailIn, nameIn, passwordIn, saltIn);
         await client.end()
         return result;
     }
-
+    
     async deleteUser(client, userEmail){
         await client.connect();
+        await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
         const result = await client.query("DELETE FROM users WHERE email = [0]", userEmail);
         await client.end();
         return result;
