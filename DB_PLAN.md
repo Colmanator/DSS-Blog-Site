@@ -83,3 +83,7 @@
 
 ### comment
 - **varchar**
+
+### UNIQUE CONSTRAINT
+- UNIQUE(author, post)
+- // ensures that users cannot review the same recipe more than once
