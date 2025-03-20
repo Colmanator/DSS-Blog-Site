@@ -1,3 +1,5 @@
+//card_number varchar, card_csv varchar, card_expiration varchar
+
 class UserDataManager {
     async get_all(client){
         await client.connect();
@@ -63,17 +65,17 @@ class UserDataManager {
         return result;
     }
 
-    async create_userInDatabase(client, emailIn, nameIn, passwordIn, saltIn){
+    async create_userInDatabase(client, emailIn, nameIn, passwordIn, saltIn, card_numberIn, card_csvIn, card_expirationIn){
 
         await client.connect();
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
         const result = await client.query(
-            "INSERT INTO users(email, displayName, password, salt, premiumStatus)" +
-            "VALUES($0, [1], [2], [3], False)", emailIn, nameIn, passwordIn, saltIn);
+            "INSERT INTO users(email, displayName, password, salt, premiumStatus, card_number, card_csv, card_expiration)" +
+            "VALUES([0], [1], [2], [3], False, [4], [5], [6])", emailIn, nameIn, passwordIn, saltIn, card_numberIn, card_csvIn, card_expirationIn, card_expirationIn);
         await client.end()
         return result;
     }
-    
+
     async deleteUser(client, userEmail){
         await client.connect();
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set

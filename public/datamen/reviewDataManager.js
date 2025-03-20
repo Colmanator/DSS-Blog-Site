@@ -70,7 +70,7 @@ class ReviewDataManager {
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
         const result = await client.query(
             "INSERT INTO reviews(id, author, post, rating, comment)" +
-            " VALUES(DEFAULT, $0, [1], [2], [3])",authorIn, postIn, ratingIn, commentIn);
+            " VALUES(DEFAULT, [0], [1], [2], [3])",authorIn, postIn, ratingIn, commentIn);
         await client.end()
         return result;
     }
