@@ -3,7 +3,7 @@ const { Client } = pg;
 import express from 'express';
 const app = express();
 
-import tablesDM from "./tables.js";
+import tablesDM from "./datamen/tables.js";
 //--------------------------------------------------//
 const port = 3000;
 //--------------------------------------------------//

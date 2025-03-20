@@ -28,7 +28,7 @@ class TableDataManager {
         // https://stackoverflow.com/questions/46500883/how-do-i-check-if-a-table-exists
         const { rows } = result;
         if (!rows[0].exists) {
-            await client.query("CREATE TABLE posts (id SERIAL PRIMARY KEY, title varchar NOT NULL, author_email varchar NOT NULL REFERENCES users(email) ON DELETE CASCADE, summary varchar, rating numeric NOT NULL CHECK (rating >= 1) CHECK (rating <= 5), premium_content bool NOT NULL, ingredients varchar NOT NULL, instructions varchar NOT NULL)")
+            await client.query("CREATE TABLE posts (id SERIAL PRIMARY KEY, title varchar NOT NULL, author_email varchar NOT NULL REFERENCES users(email) ON DELETE CASCADE, summary varchar, rating numeric NOT NULL CHECK (rating >= 0) CHECK (rating <= 5), premium_content bool NOT NULL, ingredients varchar NOT NULL, instructions varchar NOT NULL)")
         }
         else {
             console.log("Table already exists.")

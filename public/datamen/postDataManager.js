@@ -27,7 +27,7 @@ class postDataManager {
     async get_postsByAuthor(client, authorIn){
         await client.connect();
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
-        const result = await client.query("SELECT * FROM posts WHERE author = [0]", authorIn)
+        const result = await client.query("SELECT * FROM posts WHERE author_email = [0]", authorIn)
         await client.end()
         return result;
     }
@@ -35,11 +35,12 @@ class postDataManager {
     async get_postsByStatus(client, statusIn){
         await client.connect();
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
-        const result = await client.query("SELECT * FROM posts WHERE premiumStatus = [0]", statusIn)
+        const result = await client.query("SELECT * FROM posts WHERE premium_content = [0]", statusIn)
         await client.end()
         return result;
     }
 
+    //-----------------------------------------------------------------------------------------------------------------
     async get_postsByRating(client, ratingIn){
         await client.connect();
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
@@ -47,6 +48,19 @@ class postDataManager {
         await client.end()
         return result;
     }
+
+    //This is fine, but what may be more useful is a method that gets all reviews above/below a certain rating?
+
+    async get_postsAboveRating(client, ratingIn){
+        await client.connect();
+        await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
+        const result = await client.query("SELECT * FROM posts WHERE rating > [0]", ratingIn)
+        await client.end()
+        return result;
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+
+    //=================================================================================================================
 
     async update_title(client, titleIn, idIn){
         await client.connect();
@@ -69,9 +83,9 @@ class postDataManager {
         return result;
     }
 
-    async update_status(client, statusIn, idIn){
+    async update_premium_content(client, statusIn, idIn){
         await client.connect();
-        const result = await client.query("UPDATE posts SET premiumContent = [0] WHERE id = [1] ", statusIn, idIn);
+        const result = await client.query("UPDATE posts SET premium_content = [0] WHERE id = [1] ", statusIn, idIn);
         await client.end();
         return result;
     }
@@ -90,11 +104,22 @@ class postDataManager {
         return result;
     }
 
-    async create_postInDatabase(client, titleIn, authorIn, summaryIn, premiumContentIn, ingredientsIn, instructIn){
+    // I'm dubious whether the parameter substitution would work as intended - unless this is more js magic that im unfamiliar with
+    //-------------------------
+    // async create_post(client, titleIn, authorIn, summaryIn, premiumContentIn, ingredientsIn, instructIn){
+    //     await client.connect();
+    //     await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
+    //     const result = await client.query("INSERT INTO posts(id, title, author, summary, rating, premiumContent, ingredients, instructions) VALUES([0], [1], [2], [3], [4], [5], [6])",titleIn, authorIn,summaryIn, 0, premiumContentIn, ingredientsIn, instructIn);
+    //     await client.end()
+    //     return result;
+    // }
 
+    async create_post(client, titleIn, authorIn, summaryIn, premiumContentIn, ingredientsIn, instructIn){
         await client.connect();
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
-        const result = await client.query("INSERT INTO posts(id, title, author, summary, rating, premiumContent, ingredients, instructions) VALUES([0], [1], [2], [3], [4], [5], [6])",titleIn, authorIn,summaryIn, 0, premiumContentIn, ingredientsIn, instructIn);
+        const result = await client.query(
+            "INSERT INTO posts(id, title, author_email, summary, rating, premium_content, ingredients, instructions)" +
+            "VALUES(DEFAULT, $0, [1], [2], [3], [4], [5])",titleIn, authorIn,summaryIn, 0, premiumContentIn, ingredientsIn, instructIn);
         await client.end()
         return result;
     }
