@@ -112,20 +112,21 @@ class postDataManager {
 
     // I'm dubious whether the parameter substitution would work as intended - unless this is more js magic that im unfamiliar with
     //-------------------------
-    // async create_post(client, titleIn, authorIn, summaryIn, premiumContentIn, ingredientsIn, instructIn){
-    //     await client.connect();
-    //     await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
-    //     const result = await client.query("INSERT INTO posts(id, title, author, summary, rating, premiumContent, ingredients, instructions) VALUES([0], [1], [2], [3], [4], [5], [6])",titleIn, authorIn,summaryIn, 0, premiumContentIn, ingredientsIn, instructIn);
-    //     await client.end()
-    //     return result;
-    // }
-
     async create_post(client, titleIn, authorIn, summaryIn, premiumContentIn, ingredientsIn, instructIn){
         await client.connect();
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
-        const result = await client.query(
-            "INSERT INTO posts(id, title, author_email, summary, rating, premium_content, ingredients, instructions)" +
-            "VALUES(DEFAULT, $0, [1], [2], [3], [4], [5])",titleIn, authorIn,summaryIn, 0, premiumContentIn, ingredientsIn, instructIn);
+        const result = await client.query("INSERT INTO posts(id, title, author, summary, rating, premiumContent, ingredients, instructions) VALUES([0], [1], [2], [3], [4], [5], [6])",titleIn, authorIn,summaryIn, 0, premiumContentIn, ingredientsIn, instructIn);
+        await client.end()
+        return result;
+    }
+
+    //uncertain if this works
+    async create_post(client, titleIn, authorIn, summaryIn, premiumContentIn, ingredientsIn, instructIn){
+        await client.connect();
+        await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
+        const query = "INSERT INTO posts(id, title, author_email, summary, rating, premium_content, ingredients, instructions) VALUES(DEFAULT, $0, $1, $2, $3, $4, $5)";
+        const params = [titleIn, authorIn, summaryIn, 0, premiumContentIn, ingredientsIn, instructIn]
+        const result = await client.query(query, params);
         await client.end()
         return result;
     }
