@@ -56,7 +56,25 @@ app.use(express.static(__dirname + '/public'));
 // Landing page
 app.get('/', (req, res) => {
     /// send the static file
-    res.sendFile(__dirname + '/pages/home.html', (err) => {
+    res.sendFile(__dirname + '/pages/login.html', (err) => {
+        if (err){
+            console.log(err);
+        }
+    })
+});
+
+app.get('/register', (req, res) => {
+    /// send the static file
+    res.sendFile(__dirname + '/pages/register.html', (err) => {
+        if (err){
+            console.log(err);
+        }
+    })
+});
+
+app.get('/home', (req, res) => {
+    /// send the static file
+    res.sendFile(__dirname + '/pages/index.html', (err) => {
         if (err){
             console.log(err);
         }

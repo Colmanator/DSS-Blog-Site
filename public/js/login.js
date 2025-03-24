@@ -78,7 +78,7 @@ addEventListener('submit', (e) => {
         fetch('/login', fetchData).then(response =>{
             if (response.login_success && !response.server_error) {
                 localStorage.setItem('sessionId', response.session_id);
-                fetch('/index');
+                fetch('http://localhost:300/home');
             }else if (!response.login_success && !response.server_error){
                 document.getElementById("login_error").textContent = "Username or Password Incorrect";
             }else{

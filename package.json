@@ -10,12 +10,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@testing-library/dom": "^10.4.0",
     "chai": "^5.2.0",
     "crypto": "^1.0.1",
     "express": "^4.21.2",
     "mocha": "^11.1.0",
     "nodemon": "^3.1.9",
-    "pg": "^8.14.0",
-    "toad-scheduler": "^3.0.1"
+    "pg": "^8.14.0"
+  },
+  "devDependencies": {
+    "@testing-library/user-event": "^14.6.1"
   }
 }
