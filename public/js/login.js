@@ -61,7 +61,7 @@ addEventListener('submit', (e) => {
 
     if(emailValid && passwordValid) {
 
-        const query = {
+        const user = {
             email: email.value,
             password: password.value,
         };
@@ -72,10 +72,11 @@ addEventListener('submit', (e) => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(query)
+            body: JSON.stringify(user)
         }
 
-        fetch('/login', fetchData).then(response =>{
+        fetch('/api/login', fetchData).then(response =>{
+            console.log(response);
             if (response.login_success && !response.server_error) {
                 localStorage.setItem('sessionId', response.session_id);
                 fetch('http://localhost:300/home');

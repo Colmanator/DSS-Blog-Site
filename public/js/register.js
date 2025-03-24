@@ -91,9 +91,9 @@ addEventListener('submit', function (e) {
                     sendErrorMessage("Password must be secure", "passwordError");
                 }else{
                     const query = {
-                        nameIn: formInput.get("displayname_input"),
-                        emailIn: formInput.get("email_input"),
-                        passwordIn: formInput.get("password_input"),
+                        username: formInput.get("displayname_input"),
+                        email: formInput.get("email_input"),
+                        password: formInput.get("password_input"),
                     };
 
                     const fetchData ={
@@ -105,7 +105,7 @@ addEventListener('submit', function (e) {
                         body: JSON.stringify(query)
                     };
 
-                    fetch('http://localhost:300/api/create_user', fetchData).then(response => {
+                    fetch('/api/create_user', fetchData).then(response => {
                         if (response.ok) {
                             window.alert("Account created successfully! Please sign in.");
                             fetch('http://localhost:300/home');

@@ -51,7 +51,7 @@ scheduler.addSimpleIntervalJob(job)
 //ROUTER CONFIG
 //--------------------------------------------------//
 app.use("/api", apiRouter)
-app.use(express.static(__dirname + '/public'));
+app.use(express.static('public'))
 
 // Landing page
 app.get('/', (req, res) => {
