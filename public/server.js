@@ -1,39 +1,58 @@
-import pg from 'pg';   //consider import
+//IMPORTS AND CONFIG
+//--------------------------------------------------//
+import pg from 'pg';
 const { Client } = pg;
 import express from 'express';
 const app = express();
 
+//dirname is not specified in module scope so is specified here
+// https://masteringjs.io/tutorials/node/__dirname-is-not-defined
+import path from 'path';
+import { fileURLToPath } from 'url';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 import tablesDM from "./datamen/tables.js";
+import userController from "./controllers/userController.js";
+import apiRouter from './apiRouter.js';
+import getClientObject from "./getClientObject.js";
+//--------------------------------------------------//
+
+
+//SETUP
 //--------------------------------------------------//
 const port = 3000;
-//--------------------------------------------------//
-function getClientObject() {
-    const client = new Client({
-        user: 'postgres',
-        password: 'password',
-        host: 'localhost',
-        port: 5432,
-        database: 'postgres'
-    })
-    return client
-}
 
-async function connect_test(client) {
-    await client.connect();
-    const res = await client.query('SELECT $1::text as message', ['Hello world!'])
-    console.log(res.rows[0].message) // Hello world!
-    await client.end()
-}
-
-connect_test(getClientObject());
-// tablesDM.create_test_table(getClientObject());
-// tablesDM.create_user_table(getClientObject());
-// tablesDM.create_post_table(getClientObject());
+//Creates DB tables if not already existing
+tablesDM.create_user_table(getClientObject());
+tablesDM.create_post_table(getClientObject());
 tablesDM.create_review_table(getClientObject());
+tablesDM.create_session_table(getClientObject());
+//--------------------------------------------------//
 
+
+//TOAD SETUP (SESSION PRUNING)
 //--------------------------------------------------//
-app.use(express.static('./public'));
+import { ToadScheduler, SimpleIntervalJob, Task } from 'toad-scheduler'
+
+const scheduler = new ToadScheduler()
+
+const task = new Task(
+    'Prune Sessions',
+    () => {
+        userController.prune_sessions()
+    }
+)
+const job = new SimpleIntervalJob({ seconds: 3, }, task)
+
+scheduler.addSimpleIntervalJob(job)
 //--------------------------------------------------//
+
+
+//ROUTER CONFIG
+//--------------------------------------------------//
+app.use("/api", apiRouter)
+app.use(express.static(__dirname + '/public'));
+
 // Landing page
 app.get('/', (req, res) => {
     /// send the static file
@@ -43,7 +62,8 @@ app.get('/', (req, res) => {
         }
     })
 });
-//--------------------------------------------------//
+
 app.listen(port, () => {
     console.log(`My app listening on port ${port}!`)
 });
+//--------------------------------------------------//

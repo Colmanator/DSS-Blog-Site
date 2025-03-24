@@ -13,7 +13,7 @@ class TableDataManager {
         // https://stackoverflow.com/questions/46500883/how-do-i-check-if-a-table-exists
         const { rows } = result;
         if (!rows[0].exists) {
-            await client.query("CREATE TABLE users (email varchar PRIMARY KEY, display_name varchar NOT NULL, password varchar NOT NULL, salt varchar NOT NULL, premiumStatus bool NOT NULL, card_number varchar, card_csv varchar, card_expiration varchar)")
+            await client.query("CREATE TABLE users (email varchar PRIMARY KEY, display_name varchar NOT NULL, password varchar NOT NULL, salt varchar NOT NULL, premium_status bool NOT NULL, verified bool NOT NULL, card_number varchar, card_csv varchar, card_expiration varchar)")
         }
         else {
             console.log("Table already exists.")
@@ -50,6 +50,7 @@ class TableDataManager {
         }
         await client.end()
     }
+
     async create_session_table(client){
         await client.connect();
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
@@ -57,7 +58,7 @@ class TableDataManager {
         // https://stackoverflow.com/questions/46500883/how-do-i-check-if-a-table-exists
         const { rows } = result;
         if (!rows[0].exists) {
-            await client.query("CREATE TABLE sessions (id SERIAL PRIMARY KEY, email varchar NOT NULL REFERENCES users(email) ON DELETE CASCADE), time_created TIMESTAMP NOT NULL")
+            await client.query("CREATE TABLE sessions (session_id varchar PRIMARY KEY, email varchar REFERENCES users(email) ON DELETE CASCADE, session_start timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL)");
         }
         else {
             console.log("Table already exists.")

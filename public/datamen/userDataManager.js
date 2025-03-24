@@ -1,4 +1,6 @@
 //card_number varchar, card_csv varchar, card_expiration varchar
+import pg from 'pg';
+import getClientObject from "../getClientObject.js";
 
 class UserDataManager {
     async get_all(client){
@@ -9,11 +11,12 @@ class UserDataManager {
         return result;
     }
 
-    async get_userByEmail(client, emailIn){
+    async get_userByEmail(emailIn){
+        const client = getClientObject();
         await client.connect();
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
 
-        const query = "SELECT * FROM users WHERE email = $0";
+        const query = "SELECT * FROM users WHERE email = $1";
         const params = [emailIn];
         const result = await client.query(query, params);
 
@@ -94,13 +97,28 @@ class UserDataManager {
         return result;
     }
 
-    async create_userInDatabase(client, emailIn, nameIn, passwordIn, saltIn, card_numberIn, card_csvIn, card_expirationIn){
+    async create_userInDatabase(email_in, display_name_in, password_in, salt_in, premium_status_in, verified_in, card_number_in, card_csv_in, card_expiration_in){
 
+        const client = getClientObject()
         await client.connect();
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
 
-        const query = "INSERT INTO users(email, display_name, password, salt, premium_status, card_number, card_csv, card_expiration) VALUES($0, $1, $2, $3, False, $4, $5, $6)"
-        const params = [emailIn, nameIn, passwordIn, saltIn, card_numberIn, card_csvIn, card_expirationIn, card_expirationIn];
+        const query = "INSERT INTO users(email, display_name, password, salt, premium_status, verified, card_number, card_csv, card_expiration) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)"
+        const params = [email_in, display_name_in, password_in, salt_in, premium_status_in, verified_in, card_number_in, card_csv_in, card_expiration_in];
+        const result = await client.query(query, params);
+
+        await client.end()
+        return result;
+    }
+
+    async set_verification(email_in){
+
+        const client = getClientObject()
+        await client.connect();
+        await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
+
+        const query = "UPDATE users SET verified = true WHERE email = $1"
+        const params = [email_in];
         const result = await client.query(query, params);
 
         await client.end()
