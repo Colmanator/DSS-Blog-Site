@@ -33,3 +33,4 @@
 
 ## Left Unfinished
 - session_id is left temporarily set to email_in value - terrible security!!!
+- hashing implemented but not yet incorporated into userController methods
