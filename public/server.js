@@ -14,7 +14,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 import tablesDM from "./datamen/tables.js";
 import userController from "./controllers/userController.js";
 import apiRouter from './apiRouter.js';
-import getClientObject from "./getClientObject.js";
+import getClientObject from "./js/getClientObject.js";
 //--------------------------------------------------//
 
 

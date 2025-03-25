@@ -53,7 +53,7 @@
 const email = document.getElementById("username_input");
 const password = document.getElementById("password_input");
 
-addEventListener('submit', (e) => {
+addEventListener('submit',(e) => {
     e.preventDefault();
     //Check email and password are in valid formats before sending to back end
     const emailValid = email.value.toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
@@ -75,14 +75,19 @@ addEventListener('submit', (e) => {
             body: JSON.stringify(user)
         }
 
-        fetch('/api/login', fetchData).then(response =>{
+        fetch('/api/login', fetchData).then(async response => {
+            let data = await response.json();
             console.log(response);
-            if (response.login_success && !response.server_error) {
-                localStorage.setItem('sessionId', response.session_id);
-                fetch('http://localhost:300/home');
-            }else if (!response.login_success && !response.server_error){
+            console.log(data);
+            if (data.login_success && !data.server_error) {
+                localStorage.setItem('sessionId', data.session_id);
+                // fetch('http://localhost:3000/home');
+                //Redirects user to home
+                window.location.href = "http://localhost:3000/home";
+
+            } else if (!data.login_success && !data.server_error) {
                 document.getElementById("login_error").textContent = "Username or Password Incorrect";
-            }else{
+            } else {
                 document.getElementById("login_error").textContent = "Server Error- Please try again";
             }
         })

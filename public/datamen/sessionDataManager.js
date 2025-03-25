@@ -1,13 +1,13 @@
-import getClientObject from "../getClientObject.js";
+import getClientObject from "../js/getClientObject.js";
 
 class SessionDataManager {
 
-    async get_session_by_status(id_in) {
+    async get_session_by_session_id(session_id_in) {
         const client = getClientObject()
 
         await client.connect();
-        const text = "SELECT * FROM sessions WHERE id = ($0)"
-        const values = [id_in]
+        const text = "SELECT * FROM sessions WHERE session_id = $1"
+        const values = [session_id_in]
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
         const result = await client.query(text, values);
         await client.end()
@@ -25,12 +25,12 @@ class SessionDataManager {
         return result;
     }
 
-    async delete_session(id_in){
+    async delete_session(session_id_in){
         const client = getClientObject()
 
         await client.connect();
         const text = "DELETE FROM sessions WHERE session_id = $1";
-        const values = [id_in]
+        const values = [session_id_in]
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
         const result = await client.query(text, values);
         await client.end();

@@ -3,7 +3,7 @@
 import express, { Router } from "express"
 import userDM from "./datamen/userDataManager.js"
 import userController from "./controllers/userController.js"
-import getClientObject from "./getClientObject.js";
+import getClientObject from "./js/getClientObject.js";
 import UserController from "./controllers/userController.js";
 const apiRouter = Router();
 apiRouter.use(express.json());
@@ -53,10 +53,19 @@ apiRouter.post("/login", async function (req, res) {
 });
 
 apiRouter.post("/logout", async function (req, res) {
-    const email = req.body.email;
-    const password = req.body.password;
+    const session_id = req.body.session_id;
 
-    const response = await userController.login(email, password);
+    const response = await userController.logout(session_id);
+
+    res.send(response)
+});
+
+apiRouter.post("/change_password", async function (req, res) {
+    const session_id = req.body.session_id;
+    const email = req.body.email;
+    const new_password = req.body.new_password;
+
+    const response = await userController.change_password(session_id, email, new_password);
 
     res.send(response)
 });

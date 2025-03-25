@@ -1,9 +1,11 @@
 //card_number varchar, card_csv varchar, card_expiration varchar
 import pg from 'pg';
-import getClientObject from "../getClientObject.js";
+import getClientObject from "../js/getClientObject.js";
 
 class UserDataManager {
-    async get_all(client){
+    async get_all(){
+        const client = getClientObject();
+
         await client.connect();
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
         const result = await client.query("SELECT * FROM users")
@@ -24,7 +26,9 @@ class UserDataManager {
         return result;
     }
 
-    async get_usersByDisplayName(client, nameIn){
+    async get_usersByDisplayName(nameIn){
+        const client = getClientObject();
+
         await client.connect();
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
 
@@ -36,10 +40,11 @@ class UserDataManager {
         return result;
     }
 
-    async get_usersByStatus(client, statusIn){
+    async get_usersByStatus(statusIn){
+        const client = getClientObject();
+
         await client.connect();
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
-
 
         const query = "SELECT * FROM users WHERE premium_status = $0"
         const params = [statusIn];
@@ -49,7 +54,9 @@ class UserDataManager {
         return result;
     }
 
-    async update_DisplayName(client, nameIn, emailIn ){
+    async set_DisplayName(nameIn, emailIn ){
+        const client = getClientObject();
+
         await client.connect();
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
 
@@ -61,7 +68,9 @@ class UserDataManager {
         return result;
     }
 
-    async update_status(client, statusIn, emailIn ){
+    async set_status(statusIn, emailIn ){
+        const client = getClientObject();
+
         await client.connect();
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
 
@@ -73,7 +82,9 @@ class UserDataManager {
         return result;
     }
 
-    async update_salt(client, saltIn, emailIn ){
+    async set_salt(saltIn, emailIn ){
+        const client = getClientObject();
+
         await client.connect();
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
 
@@ -85,12 +96,14 @@ class UserDataManager {
         return result;
     }
 
-    async update_password(client, passwordIn, emailIn){
+    async set_password(password_in, email_in){
+        const client = getClientObject();
+
         await client.connect();
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
 
-        const query = "UPDATE users SET password = $0 WHERE email = $1"
-        const params = [passwordIn, emailIn];
+        const query = "UPDATE users SET password = $1 WHERE email = $2"
+        const params = [password_in, email_in];
         const result = await client.query(query, params);
 
         await client.end();
@@ -98,8 +111,8 @@ class UserDataManager {
     }
 
     async create_userInDatabase(email_in, display_name_in, password_in, salt_in, premium_status_in, verified_in, card_number_in, card_csv_in, card_expiration_in){
+        const client = getClientObject();
 
-        const client = getClientObject()
         await client.connect();
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
 
@@ -125,7 +138,9 @@ class UserDataManager {
         return result;
     }
 
-    async deleteUser(client, userEmail){
+    async deleteUser(userEmail){
+        const client = getClientObject();
+
         await client.connect();
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
 
