@@ -21,7 +21,7 @@ function hashString(string, salt) {
     let hashv1 = saltAdd(string,salt);
     return hash(pepperAdd(hashv1, pepper));
 }
-function createSecurePassword(){
+function createSecurePassword(passwordIn){
     let salt = createSalt();
     let pepper = getPepper();
     let hashv1 = saltAdd(string,salt);
