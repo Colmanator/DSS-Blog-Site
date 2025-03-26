@@ -6,10 +6,10 @@ class SessionDataManager {
         const client = getClientObject()
 
         await client.connect();
-        const text = "SELECT * FROM sessions WHERE session_id = $1"
-        const values = [session_id_in]
+        const query = "SELECT * FROM sessions WHERE session_id = $1"
+        const params = [session_id_in]
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
-        const result = await client.query(text, values);
+        const result = await client.query(query, params);
         await client.end()
         return result;
     }
@@ -29,10 +29,10 @@ class SessionDataManager {
         const client = getClientObject()
 
         await client.connect();
-        const text = "DELETE FROM sessions WHERE session_id = $1";
-        const values = [session_id_in]
+        const query = "DELETE FROM sessions WHERE session_id = $1";
+        const params = [session_id_in]
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
-        const result = await client.query(text, values);
+        const result = await client.query(query, params);
         await client.end();
         return result;
     }
@@ -41,10 +41,10 @@ class SessionDataManager {
         const client = getClientObject()
 
         await client.connect();
-        const text = "INSERT INTO sessions(session_id, email, session_start) VALUES($1, $2, DEFAULT)";
-        const values = [session_id_in, email_in];
+        const query = "INSERT INTO sessions(session_id, email, session_start) VALUES($1, $2, DEFAULT)";
+        const params = [session_id_in, email_in];
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
-        const result = await client.query(text, values);
+        const result = await client.query(query, params);
         await client.end();
         return result;
     }

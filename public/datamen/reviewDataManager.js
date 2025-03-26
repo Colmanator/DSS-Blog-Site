@@ -10,56 +10,70 @@ class ReviewDataManager {
 
     async get_reviewByID(client, idIn){
         await client.connect();
+        let query = "SELECT * FROM reviews WHERE id = $1";
+        let params = [idIn];
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
-        const result = await client.query("SELECT * FROM reviews WHERE id = [0]", idIn)
+        const result = await client.query(query, params);
         await client.end()
         return result;
     }
 
     async get_reviewsByAuthor(client, authorIn){
         await client.connect();
+        let query = "SELECT * FROM reviews WHERE author = $1";
+        let params = [authorIn];
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
-        const result = await client.query("SELECT * FROM reviews WHERE author = [0]", authorIn)
+        const result = await client.query(query, params);
         await client.end()
         return result;
     }
 
     async get_reviewsByPost(client, postIn){
         await client.connect();
+        let query = "SELECT * FROM reviews WHERE post = $1";
+        let params = [postIn];
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
-        const result = await client.query("SELECT * FROM reviews WHERE post = [0]", postIn)
+        const result = await client.query(query, params);
         await client.end()
         return result;
     }
 
     async get_reviewByRating(client, ratingIn){
         await client.connect();
+        let query = "SELECT * FROM reviews WHERE rating = $1";
+        let params = [ratingIn];
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
-        const result = await client.query("SELECT * FROM reviews WHERE rating = [0]", ratingIn)
+        const result = await client.query(query, params);
         await client.end()
         return result;
     }
 
     async get_reviewByComment(client, commentIn){
         await client.connect();
+        let query = "SELECT * FROM reviews WHERE comment = $1";
+        let params = [commentIn];
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
-        const result = await client.query("SELECT * FROM reviews WHERE comment = [0]", commentIn)
+        const result = await client.query(query, params);
         await client.end()
         return result;
     }
 
     async update_rating(client, ratingIn, idIn){
         await client.connect();
+        let query = "UPDATE reviews SET rating = $1 WHERE id = $2";
+        let params = [ratingIn, idIn];
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
-        const result = await client.query("UPDATE reviews SET rating = [0] WHERE id = [1] ", ratingIn, idIn);
+        const result = await client.query(query, params);
         await client.end();
         return result;
     }
 
     async update_comment(client, commentIn, idIn ){
         await client.connect();
+        let query = "UPDATE reviews SET comment = $1 WHERE id = $2";
+        let params = [commentIn, idIn];
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
-        const result = await client.query("UPDATE reviews SET comment = [0] WHERE id = [1] ", commentIn, idIn);
+        const result = await client.query(query, params);
         await client.end();
         return result;
     }
@@ -67,18 +81,20 @@ class ReviewDataManager {
     async create_reviewInDatabase(client, authorIn, postIn, ratingIn, commentIn){
 
         await client.connect();
+        let query = "INSERT INTO reviews(id, author, post, rating, comment) VALUES(DEFAULT, $1, $2, $3, $4)";
+        let params = [authorIn, postIn, ratingIn, commentIn];
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
-        const result = await client.query(
-            "INSERT INTO reviews(id, author, post, rating, comment)" +
-            " VALUES(DEFAULT, [0], [1], [2], [3])",authorIn, postIn, ratingIn, commentIn);
+        const result = await client.query(query, params);
         await client.end()
         return result;
     }
 
     async deleteReview(client, reviewId){
         await client.connect();
+        let query = "DELETE FROM reviews WHERE id = $1";
+        let params = [reviewId];
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
-        const result = await client.query("DELETE FROM reviews WHERE id = [0]", reviewId)
+        const result = await client.query(query, params);
         await client.end();
         return result;
     }
