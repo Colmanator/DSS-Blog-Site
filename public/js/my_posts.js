@@ -13,7 +13,7 @@ async function loadPosts() {
     let postList = document.getElementById('myPosts');
 
     for(let i = 0; i < postList.children.length; i++) {
-        if(postList.children[i].nodeName == "article") {
+        if(postList.children[i].nodeName === "article") {
             postList.removeChild(postList.children[i]);
         }
     }

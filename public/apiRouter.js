@@ -82,6 +82,14 @@ apiRouter.post("/change_password", async function (req, res) {
     const response = await userController.change_password(session_id, email, new_password);
 
 });
+
+apiRouter.post("/delete_user", async function (req, res) {
+    const email = req.body.email;
+
+    const response = await userController.delete_user(email);
+
+    res.send(response)
+});
 //--------------------------------------------------//
 
 export default apiRouter;
