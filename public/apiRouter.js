@@ -5,7 +5,9 @@ import userDM from "./datamen/userDataManager.js"
 import userController from "./controllers/userController.js"
 import getClientObject from "./js/getClientObject.js";
 import UserController from "./controllers/userController.js";
+import cookieParser from "cookie-parser";
 const apiRouter = Router();
+apiRouter.use(cookieParser());
 apiRouter.use(express.json());
 //--------------------------------------------------//
 
@@ -19,6 +21,11 @@ apiRouter.get("/get_test", async function (req, res) {
 apiRouter.post("/post_test", async function (req, res) {
     console.log(req.body);
     res.send({value : "rec"});
+});
+
+apiRouter.post("/test_session", async function (req, res) {
+    console.log(req.cookies.sessionId);
+    res.send("HI");
 });
 //--------------------------------------------------//
 
@@ -49,6 +56,13 @@ apiRouter.post("/login", async function (req, res) {
 
     const response = await userController.login(email, password);
 
+    res.cookie('sessionId', response.session_id, {
+        expires: new Date(Date.now() + 100000),
+        path: '/api',
+        secure: true,
+        httpOnly: true,
+    })
+
     res.send(response)
 });
 
@@ -67,7 +81,6 @@ apiRouter.post("/change_password", async function (req, res) {
 
     const response = await userController.change_password(session_id, email, new_password);
 
-    res.send(response)
 });
 //--------------------------------------------------//
 

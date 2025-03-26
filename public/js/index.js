@@ -61,4 +61,16 @@ async function loadLatestPosts() {
     }
 }
 
-loadLatestPosts();
+const fetchData ={
+    method: "POST",
+    headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+    },
+    withCredentials: true,
+body: JSON.stringify({beep: "boop"}),
+};
+fetch('/api/test_session', fetchData).then((response) => {
+    loadLatestPosts();
+})
+
