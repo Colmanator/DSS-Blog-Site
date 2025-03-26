@@ -98,6 +98,31 @@ class UserController {
             return await userDM.set_password(password_in, email_in);
         }
     }
+    // create session ID, check to see if its unique
+    //https://workos.com/blog/session-management-best-practices
+    async check_session_id_unique (session_id_in) {
+        const sessions = await sessionDM.get_all();
+        for (let sessionRow in sessions) {
+            let session_id = sessions[sessionRow].session_id;
+            if(session_id === session_id_in){
+                return false;
+            }
+        }
+        return true;
+    }
+    //https://workos.com/blog/session-management-best-practices
+    async createSessionID(length = 32){
+        let session_id = "";
+        let check_good_session_id = false;
+        while (check_good_sessionid === false) {
+            let session_id = crypto.randomBytes(length).toString('hex');
+            let unique_session = this.check_session_id_unique(session_id);
+            if (unique_session === true) {
+                check_good_session_id = true;
+            }
+        }
+        return session_id;
+    }
 
 }
 export default new UserController;
