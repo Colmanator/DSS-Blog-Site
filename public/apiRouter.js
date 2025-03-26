@@ -69,6 +69,14 @@ apiRouter.post("/change_password", async function (req, res) {
 
     res.send(response)
 });
+
+apiRouter.post("/delete_user", async function (req, res) {
+    const email = req.body.email;
+
+    const response = await userController.delete_user(email);
+
+    res.send(response)
+});
 //--------------------------------------------------//
 
 export default apiRouter;

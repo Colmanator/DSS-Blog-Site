@@ -5,11 +5,15 @@ import {getRandomValues} from "crypto";
 import * as timers from "node:timers";
 
 class UserController {
-    // Alter Account,
+    // Delete
     async create_user (email_in, display_name_in, password_in) {
         let salt = hashManager.generate_salt();
         let hash = hashManager.hash_password(password_in, salt);
         return await userDM.create_userInDatabase(email_in, display_name_in, hash, salt, false, false, null, null, null)
+    }
+
+    async delete_user (email_in, display_name_in, password_in) {
+        return await userDM.deleteUser(email_in)
     }
     async verify_user (email_in) {
         return await userDM.set_verification(email_in);
