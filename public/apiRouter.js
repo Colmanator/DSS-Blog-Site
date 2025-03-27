@@ -2,10 +2,12 @@
 //--------------------------------------------------//
 import express, { Router } from "express"
 import userDM from "./datamen/userDataManager.js"
+import postController from "./controllers/postController.js";
 import userController from "./controllers/userController.js"
 import getClientObject from "./js/getClientObject.js";
 import UserController from "./controllers/userController.js";
 import cookieParser from "cookie-parser";
+import sessionDataManager from "./datamen/sessionDataManager.js";
 const apiRouter = Router();
 apiRouter.use(cookieParser());
 apiRouter.use(express.json());
@@ -91,5 +93,62 @@ apiRouter.post("/delete_user", async function (req, res) {
     res.send(response)
 });
 //--------------------------------------------------//
+// Post controller API
+// get posts by author
+apiRouter.post("/get_authors_posts", async function (req, res) {
+    const session_id = req.body.session_id;
+    const session = await sessionDataManager.get_session_by_session_id(session_id);
+    const response = await postController.fetch_posts_author(session[1]);
+    res.send(response)
+});
 
+//get posts by user status
+
+apiRouter.post("/get_posts_user_status", async function (req, res) {
+    const session_id = req.body.session_id;
+    const session = await sessionDataManager.get_session_by_session_id(session_id);
+    const response = await postController.fetch_posts_by_user(session[1]);
+    res.send(response)
+});
+
+//create post
+//id, title, author, premium content, ingredients, instructions
+apiRouter.post("/create_post", async function (req, res) {
+    const session_id = req.body.session_id;
+    const session = await sessionDataManager.get_session_by_session_id(session_id);
+    const title = req.body.title;
+    const author = session[1];
+    const status = req.body.premiumStatus;
+    const ingred = req.body.ingredients;
+    const instruct = req.body.instructions;
+    const response = await postController.create_post(title, author, status, instruct, ingred);
+    res.send(response)
+});
+
+// edit  post
+apiRouter.post("/edit_post", async function (req, res) {
+    const session_id = req.body.session_id;
+    const session = await sessionDataManager.get_session_by_session_id(session_id);
+    const postID = req.body.postID
+    let currPost = await postController.fetch_posts_id(postID);
+    if (currPost[2] === session[1]) {
+        const title = req.body.title;
+        const status = req.body.premiumStatus;
+        const ingred = req.body.ingredients;
+        const instruct = req.body.instructions;
+        const response = await postController.edit_post(postID, title, status, ingred, instruct);
+        res.send(response)
+    }
+    else{
+        res.send("Server Error");
+    }
+});
+//delete post
+apiRouter.post("/delete_post", async function (req, res) {
+    const postID = req.body.postID;
+    const response = await userController.delete_user(postID);
+    res.send(response)
+});
+
+//----------------------------------------------------//
 export default apiRouter;

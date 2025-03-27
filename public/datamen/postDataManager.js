@@ -10,7 +10,7 @@ class postDataManager {
         return result;
     }
 
-    async get_postByID(client, idIn){
+    async get_postByID(idIn){
         await client.connect();
         let query = "SELECT * FROM posts WHERE id = $1";
         let params = [idIn]
@@ -20,7 +20,7 @@ class postDataManager {
         return result;
     }
 
-    async get_postByTitle(client, titleIn){
+    async get_postByTitle(titleIn){
         await client.connect();
         let query = "SELECT * FROM posts WHERE title = $1";
         let params = [titleIn]
@@ -30,7 +30,7 @@ class postDataManager {
         return result;
     }
 
-    async get_postsByAuthor(client, authorIn){
+    async get_postsByAuthor(authorIn){
         await client.connect();
         let query = "SELECT * FROM posts WHERE author_email = $1";
         let params = [authorIn]
@@ -40,7 +40,7 @@ class postDataManager {
         return result;
     }
 
-    async get_postsByStatus(client, statusIn){
+    async get_postsByStatus(statusIn){
         await client.connect();
         let query = "SELECT * FROM posts WHERE premium_content = $1";
         let params = [statusIn]
@@ -51,7 +51,7 @@ class postDataManager {
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    async get_postsByRating(client, ratingIn){
+    async get_postsByRating(ratingIn){
         await client.connect();
         let query = "SELECT * FROM posts WHERE rating = $1";
         let params = [ratingIn]
@@ -63,7 +63,7 @@ class postDataManager {
 
     //This is fine, but what may be more useful is a method that gets all reviews above/below a certain rating?
 
-    async get_postsAboveRating(client, ratingIn){
+    async get_postsAboveRating(ratingIn){
         await client.connect();
         let query = "SELECT * FROM posts WHERE rating > $1";
         let params = [ratingIn]
@@ -76,7 +76,7 @@ class postDataManager {
 
     //=================================================================================================================
 
-    async update_title(client, titleIn, idIn){
+    async update_title(titleIn, idIn){
         await client.connect();
         let query = "UPDATE posts SET title = $1 WHERE id = $2 ";
         let params = [titleIn, idIn]
@@ -86,7 +86,7 @@ class postDataManager {
         return result;
     }
 
-    async update_summary(client, summaryIn, idIn){
+    async update_summary(summaryIn, idIn){
         await client.connect();
         let query = "UPDATE posts SET summary = $1 WHERE id = $2";
         let params = [summaryIn, idIn]
@@ -96,7 +96,7 @@ class postDataManager {
         return result;
     }
 
-    async update_rating(client, ratingIn, idIn){
+    async update_rating(ratingIn, idIn){
         await client.connect();
         let query = "UPDATE posts SET rating = $1 WHERE id = $2 ";
         let params = [ratingIn, idIn]
@@ -106,7 +106,7 @@ class postDataManager {
         return result;
     }
 
-    async update_premium_content(client, statusIn, idIn){
+    async update_premium_content(statusIn, idIn){
         await client.connect();
         let query = "UPDATE posts SET premium_content = $1 WHERE id = $2";
         let params = [statusIn, idIn]
@@ -116,7 +116,7 @@ class postDataManager {
         return result;
     }
 
-    async update_ingredients(client, ingredientsIn, idIn){
+    async update_ingredients(ingredientsIn, idIn){
         await client.connect();
         let query = "UPDATE posts SET ingredients = $1 WHERE id = $2";
         let params = [ingredientsIn, idIn]
@@ -126,7 +126,7 @@ class postDataManager {
         return result;
     }
 
-    async update_instruct(client, instructIn, idIn){
+    async update_instruct(instructIn, idIn){
         await client.connect();
         let query = "UPDATE posts SET instructions = $1 WHERE id = $2";
         let params = [instructIn, idIn]
@@ -138,7 +138,7 @@ class postDataManager {
 
     // I'm dubious whether the parameter substitution would work as intended - unless this is more js magic that im unfamiliar with
     //-------------------------
-    async create_post(client, titleIn, authorIn, summaryIn, premiumContentIn, ingredientsIn, instructIn){
+    async create_post(titleIn, authorIn, summaryIn, premiumContentIn, ingredientsIn, instructIn){
         await client.connect();
         let query = "INSERT INTO posts(id, title, author, summary, rating, premiumContent, ingredients, instructions) VALUES(DEFAULT, $1, $2, $3, $4, $5, $6, $7)";
         let params = [titleIn, authorIn, summaryIn, 0, premiumContentIn, ingredientsIn, instructIn];
@@ -148,7 +148,7 @@ class postDataManager {
         return result;
     }
 
-    async deletePost(client, postId){
+    async deletePost(postId){
         await client.connect();
         let query = "DELETE FROM posts WHERE id = $1";
         let params = [postId]
