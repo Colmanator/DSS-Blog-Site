@@ -28,7 +28,7 @@ class UserController {
             let hashed_password_db = user.password;
             let salt = user.salt;
             let verified = user.verified;
-
+//////////////////////////////////////////////////////////////////// Verified not in database //////////////////////////
             let hashed_password_in = hashManager.hash_password(unhashed_password_in, salt);
             console.log(hashed_password_in);
             //OUT: 1894dadaf53eed136c61258e089cbdbb85e9a86dbb19a11cbfb89422ec570dcc
