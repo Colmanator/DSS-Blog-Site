@@ -2,6 +2,7 @@
 //--------------------------------------------------//
 import express, { Router } from "express"
 import userDM from "./datamen/userDataManager.js"
+import postController from "./controllers/postController.js";
 import userController from "./controllers/userController.js"
 import getClientObject from "./js/getClientObject.js";
 import UserController from "./controllers/userController.js";
@@ -91,5 +92,43 @@ apiRouter.post("/delete_user", async function (req, res) {
     res.send(response)
 });
 //--------------------------------------------------//
+// Post controller API
+// get posts by author
+apiRouter.post("/get_authors_posts", async function (req, res) {
+    const email = req.body.email;
+    const response = await postController.fetch_posts_author(email);
+    res.send(response)
+});
 
+//get posts by user status
+
+apiRouter.post("/get_posts_user_status", async function (req, res) {
+    const email = req.body.email;
+    const response = await postController.fetch_posts_by_user(email);
+    res.send(response)
+});
+
+//create post
+//id, title, author, premium content, ingredients, instructions
+apiRouter.post("/create_post", async function (req, res) {
+    const title = req.body.title;
+    const author = req.body.user;
+    const status = req.body.premiumStatus;
+    const ingred = req.body.ingredients;
+    const instruct = req.body.instructions;
+    const response = await postController.create_post(title, author, status, instruct, ingred);
+    res.send(response)
+});
+
+// edit  post
+apiRouter.post("/edit_post", async function (req, res) {
+    const title = req.body.title;
+    const status = req.body.premiumStatus;
+    const ingred = req.body.ingredients;
+    const instruct = req.body.instructions;
+    const response = await postController.create_post(title, status, ingred, instruct);
+    res.send(response)
+});
+
+//----------------------------------------------------//
 export default apiRouter;

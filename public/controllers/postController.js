@@ -63,6 +63,19 @@ class postController {
         return await postDM.get_postsByStatus(status_in);
     }
 
+    async fetch_posts_by_user(user_email){
+        const user = await userDM.get_userByEmail(user_email);
+        const user_status = user[4];
+        if (user_status) {
+            return await postDM.get_all();
+        }
+        else {
+            return await postDM.get_postsByStatus(user_status);
+        }
+    }
+
+
+
 
 
 
