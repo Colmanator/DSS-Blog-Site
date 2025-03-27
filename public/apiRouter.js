@@ -67,7 +67,7 @@ apiRouter.post("/login", async function (req, res) {
 });
 
 apiRouter.post("/logout", async function (req, res) {
-    const session_id = req.body.session_id;
+    const session_id = req.cookies.sessionId;
 
     const response = await userController.logout(session_id);
 
