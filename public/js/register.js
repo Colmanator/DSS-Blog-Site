@@ -36,6 +36,11 @@ displayName.addEventListener("input", function (e) {
 
 const password = document.getElementById("password_input");
 password.addEventListener("input", function (e) {
+    console.log("Changed!!")
+    const emailSplit = email.value.split('@');
+    const emailValid = (!e.target.value.toLowerCase().includes(email.value.toLowerCase()))
+        && (!e.target.value.toLowerCase().includes(emailSplit[0].toLowerCase()))
+        && (!e.target.value.toLowerCase().includes(emailSplit[1].toLowerCase()));
     //Checks that password meets password policy
     if(e.target.value.length < 8) {
         sendErrorMessage("Password must be at least 8 characters", "passwordError");
@@ -43,6 +48,8 @@ password.addEventListener("input", function (e) {
         sendErrorMessage("Password must be less than 64 characters", "passwordError");
     }else if (e.target.value.toLowerCase().includes(displayName.value.toLowerCase())) {
         sendErrorMessage("Password cannot contain your display name", "passwordError");
+    }else if (!emailValid){
+        sendErrorMessage("Password cannot contain your email", "passwordError");
     }else if (e.target.value.toLowerCase().includes("  ")) {
         sendErrorMessage("Password cannot contain consecutive spaces", "passwordError");
     }else{
@@ -70,6 +77,9 @@ addEventListener('submit', function (e) {
         && formInput.get("password_input").length <= 64
         && (!formInput.get("password_input").toLowerCase().includes(formInput.get("displayname_input")))
         && (!formInput.get("password_input").toLowerCase().includes("  "));
+        && (!password.toLowerCase().includes(email.value.toLowerCase()))
+        && (!password.toLowerCase().includes(emailSplit[0].toLowerCase()))
+        && (!password.toLowerCase().includes(emailSplit[1].toLowerCase()));
     //check the confirmed password is the same as the password.
     const passwordConfirmValid = formInput.get("password_confirm") === formInput.get("password_input");
     //Checks if email is in valid format by using a regex pattern taken from this stack

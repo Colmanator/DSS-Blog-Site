@@ -81,6 +81,24 @@ app.get('/home', (req, res) => {
     })
 });
 
+app.get('/my_posts', (req, res) => {
+    /// send the static file
+    res.sendFile(__dirname + '/pages/my_posts.html', (err) => {
+        if (err){
+            console.log(err);
+        }
+    })
+});
+
+app.get('/posts', (req, res) => {
+    /// send the static file
+    res.sendFile(__dirname + '/pages/posts.html', (err) => {
+        if (err){
+            console.log(err);
+        }
+    })
+});
+
 app.listen(port, () => {
     console.log(`My app listening on port ${port}!`)
 });
