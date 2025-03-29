@@ -1,4 +1,5 @@
 import pg from 'pg';
+import encrypter from "./Encrypter.js";
 const { Client } = pg;
 
 export default function getClientObject() {
