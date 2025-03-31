@@ -3,8 +3,7 @@ import pg from 'pg';
 import getClientObject from "../js/getClientObject.js";
 
 class UserDataManager {
-    async get_all(){
-        const client = getClientObject();
+    async get_all(client){
 
         await client.connect();
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
@@ -13,8 +12,8 @@ class UserDataManager {
         return result;
     }
 
-    async get_userByEmail(emailIn){
-        const client = getClientObject();
+    async get_userByEmail(client, emailIn){
+
         await client.connect();
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
 
@@ -26,8 +25,7 @@ class UserDataManager {
         return result;
     }
 
-    async get_usersByDisplayName(nameIn){
-        const client = getClientObject();
+    async get_usersByDisplayName(client, nameIn){
 
         await client.connect();
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
@@ -40,8 +38,7 @@ class UserDataManager {
         return result;
     }
 
-    async get_usersByStatus(statusIn){
-        const client = getClientObject();
+    async get_usersByStatus(client, statusIn){
 
         await client.connect();
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
@@ -54,8 +51,7 @@ class UserDataManager {
         return result;
     }
 
-    async set_DisplayName(nameIn, emailIn ){
-        const client = getClientObject();
+    async set_DisplayName(client, nameIn, emailIn){
 
         await client.connect();
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
@@ -68,8 +64,7 @@ class UserDataManager {
         return result;
     }
 
-    async set_status(statusIn, emailIn ){
-        const client = getClientObject();
+    async set_status(client, statusIn, emailIn ){
 
         await client.connect();
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
@@ -82,8 +77,7 @@ class UserDataManager {
         return result;
     }
 
-    async set_salt(saltIn, emailIn ){
-        const client = getClientObject();
+    async set_salt(client, saltIn, emailIn ){
 
         await client.connect();
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
@@ -96,8 +90,7 @@ class UserDataManager {
         return result;
     }
 
-    async set_password(password_in, email_in){
-        const client = getClientObject();
+    async set_password(client, password_in, email_in){
 
         await client.connect();
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
@@ -110,8 +103,7 @@ class UserDataManager {
         return result;
     }
 
-    async create_userInDatabase(email_in, display_name_in, password_in, salt_in, premium_status_in, verified_in, card_number_in, card_csv_in, card_expiration_in){
-        const client = getClientObject();
+    async create_userInDatabase(client, email_in, display_name_in, password_in, salt_in, premium_status_in, verified_in, card_number_in, card_csv_in, card_expiration_in){
 
         await client.connect();
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
@@ -124,9 +116,8 @@ class UserDataManager {
         return result;
     }
 
-    async set_verification(email_in){
+    async set_verification(client, email_in){
 
-        const client = getClientObject()
         await client.connect();
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
 
@@ -138,8 +129,7 @@ class UserDataManager {
         return result;
     }
 
-    async deleteUser(userEmail){
-        const client = getClientObject();
+    async deleteUser(client, userEmail){
 
         await client.connect();
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set

@@ -26,7 +26,7 @@ function encryption(algorithm, password, stringIn, salt) {
             const cipher = createCipheriv(algorithm, key, iv);
 
             let encrypted = cipher.update(stringIn, 'utf8', 'hex');
-            encrypted += cipher.final('hex');
+            encrypted = encrypted + cipher.final('hex');
             return {encrypted, password};
         });
     });
@@ -43,7 +43,7 @@ function deEncryption(algorithm, password, stringIn, salt){
 
 // Encrypted using same algorithm, key and iv.
     let decrypted = decipher.update(stringIn, 'hex', 'utf8');
-    decrypted += decipher.final('utf8');
+    decrypted = decrypted + decipher.final('utf8');
     return decrypted;
 // Prints: some clear text data
 }

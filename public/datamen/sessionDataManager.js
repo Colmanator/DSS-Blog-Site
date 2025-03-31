@@ -2,9 +2,7 @@ import getClientObject from "../js/getClientObject.js";
 
 class SessionDataManager {
 
-    async get_session_by_session_id(session_id_in) {
-        const client = getClientObject()
-
+    async get_session_by_session_id(client, session_id_in) {
         await client.connect();
         const query = "SELECT * FROM sessions WHERE session_id = $1"
         const params = [session_id_in]
@@ -14,8 +12,7 @@ class SessionDataManager {
         return result;
     }
 
-    async get_all() {
-        const client = getClientObject()
+    async get_all(client) {
 
         await client.connect();
         await client.query("SET SEARCH_PATH TO dss_cw; SET DATESTYLE TO \'ISO, DMY\'"); //Date format set
@@ -25,8 +22,7 @@ class SessionDataManager {
         return result;
     }
 
-    async delete_session(session_id_in){
-        const client = getClientObject()
+    async delete_session(client, session_id_in){
 
         await client.connect();
         const query = "DELETE FROM sessions WHERE session_id = $1";
@@ -37,8 +33,7 @@ class SessionDataManager {
         return result;
     }
 
-    async create_session_in_database(session_id_in, email_in){
-        const client = getClientObject()
+    async create_session_in_database(client, session_id_in, email_in){
 
         await client.connect();
         const query = "INSERT INTO sessions(session_id, email, session_start) VALUES($1, $2, DEFAULT)";
